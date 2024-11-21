@@ -1,0 +1,48 @@
+name: Build and Deploy React App
+
+on:
+  push:
+    branches:
+      - main  # Adjust if your main branch has a different name
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20' # Adjust Node.js version as per your project
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run ESLint (optional, non-blocking)
+      - name: Run ESLint
+        run: npm run lint || echo "Linting warnings ignored"
+
+      # Step 5: Build the React app
+      - name: Build the React app
+        run: |
+          CI=false npm run build  # Prevent warnings from failing the build
+
+      # Step 6: Azure Login
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Step 7: Deploy to Azure Web App (main app, not a slot)
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'ntcparts'  # Your Azure Web App name
+          package: './build'    # Path to the built React app
