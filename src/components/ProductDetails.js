@@ -1,81 +1,107 @@
-import React from "react";
-import { useCart } from "../context/CartContext";
-import Filters from "../components/Filters"; // Import Filters component
+import React, { useContext } from "react";
+import { useCart } from "../context/CartContext"; // Assuming you have a Cart context
+import { ProductContext } from "../context/ProductContext";
 
-const ProductDetails = ({ product }) => {
+const ProductDetails = () => {
+  const { selectedProduct } = useContext(ProductContext);
   const { addToCart } = useCart();
 
-  if (!product) {
-    return <p className="text-gray-500">No product selected.</p>;
+  if (!selectedProduct) {
+    return <p>No product selected. Please go back and choose a product.</p>;
   }
 
-  // Safely access price and discountPrice with a fallback to 0 if undefined or null
-  const price = product.price ? product.price.toFixed(2) : "N/A";
-  const discountPrice = product.discountPrice
-    ? product.discountPrice.toFixed(2)
+  const price = selectedProduct.priceEach
+    ? parseFloat(selectedProduct.priceEach.replace('$', '')).toFixed(2)
     : "N/A";
 
   return (
-    <div className="min-h-screen flex bg-[#F2F4F7]">
-      {/* Sidebar for Filters */}
-      <aside className="w-1/4 p-4 bg-white border-r border-[#EAECF0] hidden md:block">
-        <Filters />
-      </aside>
+    <div className="min-h-screen bg-[#F9FAFB]">
+      {/* Breadcrumbs */}
+      <div className="text-sm text-gray-500 px-8 py-4">
+        Home › Plumbing supplies › Sub category 02 › Product
+      </div>
 
-      {/* Main Content Area for Product Details */}
-      <main className="flex-1 p-8">
-        <div className="border p-4 rounded-lg shadow-md bg-white max-w-xl mx-auto">
-          {/* Product Image */}
-          <div className="flex justify-center mb-4">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-40 object-cover mb-4"
-            />
-          </div>
+      {/* Main Content */}
+      <div className="flex px-8 py-8 gap-8">
+        {/* Product Image */}
+        <div className="w-1/2">
+          <img
+            src={selectedProduct.image || "https://via.placeholder.com/500"}
+            alt={selectedProduct.name || "Product Image"}
+            className="w-full h-auto object-cover rounded-md"
+          />
+        </div>
 
-          {/* Product Name, SKU, and Brand */}
-          <h2 className="text-xl font-bold mb-2">{product.name}</h2>
-          <p className="text-sm text-gray-600 mb-2">SKU: {product.sku}</p>
-          <p className="text-sm text-gray-600 mb-2">Brand: {product.brand}</p>
+        {/* Product Details */}
+        <div className="w-1/2">
+          <h2 className="text-3xl font-bold mb-4">{selectedProduct.name}</h2>
 
-          {/* Price and Discount */}
-          <div className="flex items-center my-2">
-            <span className="text-green-500 font-bold">${price}</span>
-            {product.discountPrice && discountPrice !== "N/A" && (
-              <span className="ml-2 text-sm text-gray-500">
-                (${discountPrice} each for box of 12)
-              </span>
-            )}
-          </div>
-
-          {/* Rating and Reviews */}
-          <div className="flex items-center my-2">
-            <span className="text-yellow-500">
-              {Array(product.rating).fill("★").join("")}
+          {/* Brand, SKU, and Ratings */}
+          <div className="flex items-center text-sm text-gray-600 space-x-4 mb-4">
+            <span>
+              Brand: <span className="text-blue-600 font-regular">{selectedProduct.brand}</span>
             </span>
-            <span className="ml-2 text-sm text-gray-500">({product.reviews})</span>
+            <span> SKU: {selectedProduct.sku}</span>
+            <div className="flex items-center text-green-600 font-medium">
+              ★★★★★ <span className="ml-2 text-gray-500">(24)</span>
+            </div>
           </div>
 
-          {/* Stock Status */}
-          <p className={`text-sm font-bold ${product.stock === "In stock" ? "text-green-500" : "text-red-500"}`}>
-            {product.stock}
-          </p>
+          {/* Price Options and Quantity Selector Combined */}
+          <div className="mt-4 bg-gray-100 p-3 rounded-md">
+            {/* Price Options */}
+            <div className="flex items-center justify-between mb-4">
+              {/* Pricing Information in a Horizontal Layout */}
+              <div className="flex flex-grow space-x-4">
+                <p className="text-lg font-bold flex-grow text-center">${price} each</p>
+                <p className="text-sm font-bold flex-grow text-center">
+                  ${price * 12} box of 12 ({(price - 0.07).toFixed(2)} each)
+                </p>
+              </div>
+              <div className="bg-red-100 text-red-600 px-3 py-1 text-sm font-bold">SAVE 20%</div>
+            </div>
 
-          {/* Delivery Date (If In Stock) */}
-          {product.stock === "In stock" && product.deliveryDate && (
-            <p className="text-sm text-gray-500 mt-2">Get by {product.deliveryDate}</p>
-          )}
+            {/* Quantity Selector */}
+            <div className="flex items-center space-x-4">
+              <button className="w-10 h-10 border text-gray-600 text-xl">-</button>
+              <input
+                type="number"
+                value="1"
+                className="w-16 text-center border mx-4 text-xl"
+                readOnly
+              />
+              <button className="w-10 h-10 border text-gray-600 text-xl">+</button>
+            </div>
+          </div>
 
           {/* Add to Cart Button */}
           <button
-            className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
-            onClick={() => addToCart(product)}
+            className="mt-8 bg-[#E20000] text-white py-3 px-48 rounded-md text-lg hover:bg-[#b80000] transition"
+            onClick={() => addToCart(selectedProduct)}
+            disabled={selectedProduct.stock === 0}
           >
             Add to Cart
           </button>
+
+          {/* Stock Status */}
+          <p
+            className={`text-lg font-bold mt-6 ${
+              selectedProduct.stock > 0 ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {selectedProduct.stock > 0 ? "In Stock" : "Out of Stock"}
+          </p>
         </div>
-      </main>
+      </div>
+
+      {/* Adjusted Price and Line Item */}
+      <div className="flex items-center justify-between mt-6 bg-gray-100 p-3 rounded-md">
+        <p className="text-lg text-gray-600">${price}</p>
+        <div className="flex items-center text-xs">
+          <span className="text-gray-500">${(price - 0.07).toFixed(2)} each</span>
+          <span className="text-gray-400 ml-4">Line item</span>
+        </div>
+      </div>
     </div>
   );
 };

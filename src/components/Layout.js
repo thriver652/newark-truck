@@ -16,6 +16,7 @@ import Subscribe from "./Subscribe";
 import Categories from "./Categories";
 import VerificationMail from "../pages/SignIn/VerificationMail";
 import Parts from "../pages/Parts/Parts";
+import ProductDetails from "../components/ProductDetails";
 
 
 function Layout({ children }) {
@@ -63,7 +64,15 @@ function Layout({ children }) {
           <Parts />
         </div>
       );
-      break;
+      break; 
+    
+    case "/productdetails":
+      content = (
+        <div className="flex-1">
+          <ProductDetails />
+        </div>
+      );
+    break;  
 
    
 

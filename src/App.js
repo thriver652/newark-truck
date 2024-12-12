@@ -10,6 +10,8 @@ import VerificationMail from "./pages/SignIn/VerificationMail";
 import { AuthProvider } from "./context/AuthContext";
 import { PartsProvider } from "./context/PartsContext";
 import { CategoriesProvider } from "./context/CategoriesContext";
+import { CartProvider } from "./context/CartContext"; 
+import { ProductProvider} from "./context/ProductContext";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <AuthProvider>
         <PartsProvider>
           <CategoriesProvider>
+          <CartProvider> 
+            <ProductProvider>
             <Router>
               <Layout>
                 <Routes>
@@ -30,6 +34,8 @@ function App() {
                 </Routes>
               </Layout>
             </Router>
+            </ProductProvider>
+            </CartProvider>
           </CategoriesProvider>
         </PartsProvider>
       </AuthProvider>

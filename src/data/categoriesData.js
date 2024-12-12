@@ -24,6 +24,16 @@ export const categories = [
         description: "Lightweight and corrosion-resistant.",
         image: "https://via.placeholder.com/267x220",
       },
+      {
+        name: "Plastic Bushings",
+        description: "Lightweight and corrosion-resistant.",
+        image: "https://via.placeholder.com/267x220",
+      },
+      {
+        name: "Plastic Bushings",
+        description: "Lightweight and corrosion-resistant.",
+        image: "https://via.placeholder.com/267x220",
+      },
     ],
   },
   {
