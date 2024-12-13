@@ -19,6 +19,7 @@ import Parts from "../pages/Parts/Parts";
 import ProductDetails from "../components/ProductDetails";
 
 
+
 function Layout({ children }) {
   const location = useLocation();
   const path = location.pathname;
@@ -73,6 +74,8 @@ function Layout({ children }) {
         </div>
       );
     break;  
+
+   
 
    
 
