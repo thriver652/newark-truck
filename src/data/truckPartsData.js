@@ -1,3 +1,4 @@
+import CopperSVG from "../images/images/copper.svg"
 
 
 export const truckParts = [
@@ -9,6 +10,8 @@ export const truckParts = [
       priceEach: "$0.64",
       priceBox: "$28 box of 12 ($0.57 each)",
       deliveryDate: "Thu, Oct 17",
+      img: CopperSVG,
+  
     },
     {
       name: "Engine Oil",
@@ -18,6 +21,7 @@ export const truckParts = [
       priceEach: "$50",
       priceBox: "$600 box of 12 ($50 each)",
       deliveryDate: "Mon, Oct 21",
+      img: CopperSVG,
     },
     {
       name: "Brake Pads",
@@ -27,6 +31,7 @@ export const truckParts = [
       priceEach: "$30",
       priceBox: "$360 box of 12 ($30 each)",
       deliveryDate: "Wed, Oct 18",
+      img: CopperSVG,
     },
     {
       name: "Headlights",
@@ -36,6 +41,7 @@ export const truckParts = [
       priceEach: "$70",
       priceBox: "$840 box of 12 ($70 each)",
       deliveryDate: "Tue, Oct 19",
+      img: CopperSVG,
     },
     // Add more truck parts here as needed
   ];

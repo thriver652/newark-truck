@@ -26,7 +26,7 @@ const TruckPartCards = () => {
               onClick={() => setSelectedProduct(part)} // Set the selected product in context
             >
               <img
-                src={placeholderImage}
+                src={part.img}
                 alt={part.name}
                 className="w-full h-full object-cover rounded-lg"
               />

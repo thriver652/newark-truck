@@ -22,6 +22,7 @@ const ProductDetails = () => {
       priceBox: selectedProduct.priceBox,
       deliveryDate: selectedProduct.deliveryDate,
       brand: selectedProduct.brand,
+      img: selectedProduct.img,
       sku: selectedProduct.sku,}); // Add product to the cart
     navigate("/cart"); // Navigate to CartDetails
   };
@@ -46,7 +47,7 @@ const ProductDetails = () => {
           <div className="w-1/2">
             <div className="relative mb-4">
               <img
-                src={selectedProduct.image || "https://via.placeholder.com/500"}
+                src={selectedProduct.img}
                 alt={selectedProduct.name || "Product Image"}
                 className="w-full h-auto object-cover rounded-md max-h-[400px]"
               />
@@ -58,7 +59,7 @@ const ProductDetails = () => {
               {[...Array(4)].map((_, index) => (
                 <img
                 key={index}
-                src={selectedProduct.galleryImages?.[index] || "https://via.placeholder.com/100"}
+                src={selectedProduct.img}
                 alt={`Thumbnail ${index + 1}`}  // Corrected template literal
                 className="w-20 h-20 object-cover rounded-md cursor-pointer border border-gray-300 hover:border-blue-500"
               />
